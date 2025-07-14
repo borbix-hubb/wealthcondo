@@ -32,9 +32,143 @@ const WealthCondoApp = () => {
   const [selectedBuilding, setSelectedBuilding] = useState('building1');
   const [selectedParkingType, setSelectedParkingType] = useState('car');
   
-  // Real data from the uploaded file
-  const [rooms, setRooms] = useState([
-    // Building 1 - Regular rooms
+  // Generate rooms data based on building specifications
+  const generateRoomsData = () => {
+    const allRooms = [];
+    
+    // Building 1 - 15 rooms per floor (no x13 rooms), floors 2-9
+    for (let floor = 2; floor <= 9; floor++) {
+      for (let room = 1; room <= 16; room++) {
+        if (room === 13) continue; // Skip x13 rooms
+        const roomNumber = `${floor}${room.toString().padStart(2, '0')}`;
+        allRooms.push({
+          id: roomNumber,
+          building: 'building1',
+          floor: floor,
+          number: roomNumber,
+          status: 'vacant',
+          tenant: '',
+          lineId: '',
+          rent: 3500,
+          phone: '',
+          carParking: 0,
+          carPlate: '',
+          motorcycleParking: 0,
+          motorcyclePlate1: '',
+          motorcyclePlate2: '',
+          contractStart: '',
+          contractEnd: ''
+        });
+      }
+    }
+    
+    // Building 2A - 6 rooms per floor, floors 2-4
+    for (let floor = 2; floor <= 4; floor++) {
+      for (let room = 1; room <= 6; room++) {
+        const roomNumber = `${floor}${room.toString().padStart(2, '0')}A`;
+        allRooms.push({
+          id: roomNumber,
+          building: 'building2A',
+          floor: floor,
+          number: roomNumber,
+          status: 'vacant',
+          tenant: '',
+          lineId: '',
+          rent: 3500,
+          phone: '',
+          carParking: 0,
+          carPlate: '',
+          motorcycleParking: 0,
+          motorcyclePlate1: '',
+          motorcyclePlate2: '',
+          contractStart: '',
+          contractEnd: ''
+        });
+      }
+    }
+    
+    // Building 2B - 6 rooms per floor, floors 2-4
+    for (let floor = 2; floor <= 4; floor++) {
+      for (let room = 1; room <= 6; room++) {
+        const roomNumber = `${floor}${room.toString().padStart(2, '0')}B`;
+        allRooms.push({
+          id: roomNumber,
+          building: 'building2B',
+          floor: floor,
+          number: roomNumber,
+          status: 'vacant',
+          tenant: '',
+          lineId: '',
+          rent: 3500,
+          phone: '',
+          carParking: 0,
+          carPlate: '',
+          motorcycleParking: 0,
+          motorcyclePlate1: '',
+          motorcyclePlate2: '',
+          contractStart: '',
+          contractEnd: ''
+        });
+      }
+    }
+    
+    // Building 3 - Floor 1: 101-109, Floors 2-5: 201-211
+    // Floor 1
+    for (let room = 1; room <= 9; room++) {
+      const roomNumber = `W3_1${room.toString().padStart(2, '0')}`;
+      allRooms.push({
+        id: roomNumber,
+        building: 'building3',
+        floor: 1,
+        number: roomNumber,
+        status: 'vacant',
+        tenant: '',
+        lineId: '',
+        rent: 3200,
+        phone: '',
+        carParking: 0,
+        carPlate: '',
+        motorcycleParking: 0,
+        motorcyclePlate1: '',
+        motorcyclePlate2: '',
+        contractStart: '',
+        contractEnd: ''
+      });
+    }
+    
+    // Floors 2-5
+    for (let floor = 2; floor <= 5; floor++) {
+      for (let room = 1; room <= 11; room++) {
+        const roomNumber = `W3_${floor}${room.toString().padStart(2, '0')}`;
+        allRooms.push({
+          id: roomNumber,
+          building: 'building3',
+          floor: floor,
+          number: roomNumber,
+          status: 'vacant',
+          tenant: '',
+          lineId: '',
+          rent: 3200,
+          phone: '',
+          carParking: 0,
+          carPlate: '',
+          motorcycleParking: 0,
+          motorcyclePlate1: '',
+          motorcyclePlate2: '',
+          contractStart: '',
+          contractEnd: ''
+        });
+      }
+    }
+    
+    return allRooms;
+  };
+
+  // Initialize with generated rooms
+  const initialRooms = generateRoomsData();
+  
+  // Add existing tenant data to the generated rooms
+  const existingTenants = [
     { id: '201', building: 'building1', floor: 2, number: '201', status: 'occupied', tenant: 'นิรดา โพธิ', lineId: 'Noomint.', rent: 3500, phone: '062-817-1267', carParking: 0, carPlate: '', motorcycleParking: 200, motorcyclePlate1: '4 ขถ 3102 กทม', motorcyclePlate2: '5 กณ 233 กทม.', contractStart: '1/9/24', contractEnd: '31/8/25' },
     { id: '202', building: 'building1', floor: 2, number: '202', status: 'occupied', tenant: 'ธัญญาทิพย์ จั๋นสุข', lineId: 'Tanyatip.', rent: 3500, phone: '062-247-2717', carParking: 0, carPlate: '', motorcycleParking: 200, motorcyclePlate1: 'กลก 642', motorcyclePlate2: '', contractStart: '1/9/24', contractEnd: '31/8/25' },
     { id: '203', building: 'building1', floor: 2, number: '203', status: 'occupied', tenant: 'น้าหลิน', lineId: 'น้าหลิน.', rent: 3500, phone: '', carParking: 0, carPlate: '', motorcycleParking: 0, motorcyclePlate1: '', motorcyclePlate2: '', contractStart: '', contractEnd: '' },
@@ -49,26 +183,18 @@ const WealthCondoApp = () => {
     { id: '214', building: 'building1', floor: 2, number: '214', status: 'occupied', tenant: 'ทศพล บรรเทา', lineId: 'knbeloved.', rent: 3500, phone: '089-464-4636', carParking: 1000, carPlate: '6ขข2177', motorcycleParking: 200, motorcyclePlate1: '8 ขฒ 6565', motorcyclePlate2: '', contractStart: '1/9/24', contractEnd: '31/8/25' },
     { id: '215', building: 'building1', floor: 2, number: '215', status: 'occupied', tenant: 'ห้องป้า.', lineId: 'ห้องป้า.', rent: 0, phone: '', carParking: 0, carPlate: '', motorcycleParking: 0, motorcyclePlate1: '', motorcyclePlate2: '', contractStart: '', contractEnd: '' },
     { id: '216', building: 'building1', floor: 2, number: '216', status: 'occupied', tenant: 'ปุณญพิชญ์ กาติ๊บ', lineId: 'Ctoon.', rent: 3500, phone: '099-193-3122', carParking: 0, carPlate: '', motorcycleParking: 200, motorcyclePlate1: '1กฌ 7415 พะเยา', motorcyclePlate2: '', contractStart: '1/9/24', contractEnd: '31/8/25' },
-    
-    // Floor 3
     { id: '301', building: 'building1', floor: 3, number: '301', status: 'occupied', tenant: 'ก้านแก้ว สายจันทร์', lineId: 'Natchakarn 🩵🍩🤎.', rent: 3500, phone: '061-520-1223', carParking: 0, carPlate: '', motorcycleParking: 200, motorcyclePlate1: '1 กผ 7863', motorcyclePlate2: '', contractStart: '1/8/25', contractEnd: '31/7/26' },
     { id: '302', building: 'building1', floor: 3, number: '302', status: 'occupied', tenant: 'อิสระภาพ มูลพงษ์', lineId: 'J.', rent: 3500, phone: '062-303-3870', carParking: 0, carPlate: '', motorcycleParking: 0, motorcyclePlate1: '', motorcyclePlate2: '', contractStart: '1/2/25', contractEnd: '31/1/26' },
     { id: '303', building: 'building1', floor: 3, number: '303', status: 'occupied', tenant: 'วนิดา ก้อนทอง', lineId: 'chompu.', rent: 3500, phone: '062-438-6901', carParking: 0, carPlate: '', motorcycleParking: 0, motorcyclePlate1: '', motorcyclePlate2: '', contractStart: '1/8/24', contractEnd: '31/7/25' },
     { id: '304', building: 'building1', floor: 3, number: '304', status: 'occupied', tenant: 'ศุภมาศ ยอดเต็มคงคา', lineId: 'supamas.', rent: 3500, phone: '092-939-5930', carParking: 0, carPlate: '', motorcycleParking: 200, motorcyclePlate1: '1กฉ1605', motorcyclePlate2: '', contractStart: '1/8/24', contractEnd: '31/7/25' },
     { id: '305', building: 'building1', floor: 3, number: '305', status: 'occupied', tenant: 'อับดุลฮากีม อาลีมามะ', lineId: 'PAN.', rent: 3500, phone: '081-783-2617', carParking: 0, carPlate: '', motorcycleParking: 200, motorcyclePlate1: '7 ขญ 813 กทม', motorcyclePlate2: '', contractStart: '1/5/25', contractEnd: '30/4/26' },
-    
-    // Building 2A - A rooms
     { id: '201A', building: 'building2A', floor: 2, number: '201A', status: 'occupied', tenant: 'ปิยธิดา จันทร์พิลา', lineId: 'ดาวแมคโดนัล.', rent: 3500, phone: '089-944-3091', carParking: 0, carPlate: '', motorcycleParking: 0, motorcyclePlate1: '', motorcyclePlate2: '', contractStart: '1/8/25', contractEnd: '31/7/26' },
     { id: '202A', building: 'building2A', floor: 2, number: '202A', status: 'occupied', tenant: 'เอื้องนิสา มูหะหมัด', lineId: 'นิสา.', rent: 3500, phone: '062-476-0726', carParking: 1000, carPlate: '2ขค300,1ขง3625', motorcycleParking: 0, motorcyclePlate1: '', motorcyclePlate2: '', contractStart: '1/8/24', contractEnd: '31/7/25' },
     { id: '203A', building: 'building2A', floor: 2, number: '203A', status: 'occupied', tenant: 'ดวงฤดี พรมขวัญ', lineId: 'wanz.', rent: 3000, phone: '098-832-0461', carParking: 0, carPlate: '', motorcycleParking: 0, motorcyclePlate1: '', motorcyclePlate2: '', contractStart: '1/8/25', contractEnd: '31/7/26' },
     { id: '204A', building: 'building2A', floor: 2, number: '204A', status: 'occupied', tenant: 'รัญย์ญาลิลล์ คนโทฉิมพลี', lineId: 'runyalil.', rent: 3500, phone: '096-326-1445', carParking: 1000, carPlate: '4ขธ298', motorcycleParking: 200, motorcyclePlate1: '7 ขฆ 481 กทม.', motorcyclePlate2: '', contractStart: '1/8/25', contractEnd: '31/7/26' },
-    
-    // Building 2B - B rooms  
     { id: '201B', building: 'building2B', floor: 2, number: '201B', status: 'occupied', tenant: 'อดิศร แสงนัยนา', lineId: 'adison.', rent: 3500, phone: '086-915-4365', carParking: 1000, carPlate: '3กอ4611', motorcycleParking: 200, motorcyclePlate1: '9 กฆ 6383 กทม.', motorcyclePlate2: '', contractStart: '1/8/24', contractEnd: '31/7/25' },
     { id: '202B', building: 'building2B', floor: 2, number: '202B', status: 'occupied', tenant: 'ณลตา สร้อยทอง', lineId: 'พี่อุ๊.', rent: 3500, phone: '087-919-5265', carParking: 1000, carPlate: '5กช4346', motorcycleParking: 200, motorcyclePlate1: '2 กฆ 3918 กทม.', motorcyclePlate2: '5 กว 7484', contractStart: '1/8/24', contractEnd: '31/7/25' },
     { id: '203B', building: 'building2B', floor: 2, number: '203B', status: 'occupied', tenant: 'ปรเมศวร์ เขื่อนแก้ว', lineId: 'Px.', rent: 3000, phone: '090-321-1897', carParking: 1000, carPlate: 'กล6477', motorcycleParking: 0, motorcyclePlate1: '', motorcyclePlate2: '', contractStart: '1/8/24', contractEnd: '31/7/25' },
-    
-    // Building 3 - W3 rooms
     { id: 'W3_101', building: 'building3', floor: 1, number: 'W3_101', status: 'occupied', tenant: 'วันเพ็ญ หยิกประเสริฐ', lineId: 'ป้าแจง.', rent: 2000, phone: '', carParking: 0, carPlate: '', motorcycleParking: 0, motorcyclePlate1: '', motorcyclePlate2: '', contractStart: '', contractEnd: '' },
     { id: 'W3_102', building: 'building3', floor: 1, number: 'W3_102', status: 'occupied', tenant: 'จอมขวัญเรือน ป้องหอม', lineId: '🌴Zor❤️.', rent: 3200, phone: '094-152-9561', carParking: 0, carPlate: '', motorcycleParking: 200, motorcyclePlate1: 'ภช 6488 ปราณบุรี', motorcyclePlate2: '', contractStart: '1/2/25', contractEnd: '31/1/26' },
     { id: 'W3_103', building: 'building3', floor: 1, number: 'W3_103', status: 'occupied', tenant: 'รุสมีนา เว๊าะแจ', lineId: 'miinaaaa.', rent: 3200, phone: '098-047-6507', carParking: 0, carPlate: '', motorcycleParking: 200, motorcyclePlate1: '2กข 3355 สงขลา', motorcyclePlate2: '', contractStart: '1/2/25', contractEnd: '31/1/26' },
@@ -77,12 +203,20 @@ const WealthCondoApp = () => {
     { id: 'W3_201', building: 'building3', floor: 2, number: 'W3_201', status: 'occupied', tenant: 'วราลี ตาลอุทัย', lineId: 'Gift.', rent: 3200, phone: '061-897-8285', carParking: 0, carPlate: '', motorcycleParking: 0, motorcyclePlate1: '', motorcyclePlate2: '', contractStart: '', contractEnd: '' },
     { id: 'W3_202', building: 'building3', floor: 2, number: 'W3_202', status: 'occupied', tenant: 'Saw Thein Zaw', lineId: 'Sor_papike.', rent: 3200, phone: '099-162-6005', carParking: 0, carPlate: '', motorcycleParking: 200, motorcyclePlate1: 'ฬธน 544 กทม', motorcyclePlate2: '', contractStart: '1/2/25', contractEnd: '31/1/26' },
     { id: 'W3_410', building: 'building3', floor: 4, number: 'W3_410', status: 'vacant', tenant: '', lineId: 'P.', rent: 3200, phone: '', carParking: 0, carPlate: '', motorcycleParking: 200, motorcyclePlate1: '2 กก 5671 ระยอง', motorcyclePlate2: '', contractStart: '1/2/25', contractEnd: '31/1/26' },
-    
-    // Some vacant rooms for demo
     { id: '503', building: 'building1', floor: 5, number: '503', status: 'vacant', tenant: '', lineId: 'Nun.', rent: 3500, phone: '', carParking: 0, carPlate: '', motorcycleParking: 0, motorcyclePlate1: '', motorcyclePlate2: '', contractStart: '', contractEnd: '' },
     { id: '505', building: 'building1', floor: 5, number: '505', status: 'vacant', tenant: '', lineId: 'Nattanon/', rent: 3500, phone: '', carParking: 0, carPlate: '', motorcycleParking: 0, motorcyclePlate1: '', motorcyclePlate2: '', contractStart: '', contractEnd: '' },
     { id: '403A', building: 'building2A', floor: 4, number: '403A', status: 'vacant', tenant: '', lineId: '', rent: 3500, phone: '', carParking: 0, carPlate: '', motorcycleParking: 0, motorcyclePlate1: '', motorcyclePlate2: '', contractStart: '', contractEnd: '' },
-  ]);
+  ];
+  
+  // Merge existing tenant data with generated rooms
+  existingTenants.forEach(tenant => {
+    const index = initialRooms.findIndex(room => room.id === tenant.id);
+    if (index !== -1) {
+      initialRooms[index] = tenant;
+    }
+  });
+  
+  const [rooms, setRooms] = useState(initialRooms);
 
   // Mock data for utility bills
   const [utilityBills, setUtilityBills] = useState([
@@ -671,7 +805,7 @@ const WealthCondoApp = () => {
               <tbody className="bg-white divide-y divide-gray-200">
                 {currentSpaces
                   .filter(space => space.status === 'occupied')
-                  .map((space, index) => {
+                  .map((space) => {
                     const room = rooms.find(r => r.id === space.roomId);
                     const parkingFee = selectedParkingType === 'car' ? room?.carParking : room?.motorcycleParking;
                     
