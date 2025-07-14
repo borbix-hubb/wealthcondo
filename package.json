@@ -2,6 +2,7 @@
   "name": "wealth-condo",
   "version": "1.0.0",
   "description": "Wealth Condo Management System",
+  "type": "module",
   "private": true,
   "scripts": {
     "dev": "vite",
